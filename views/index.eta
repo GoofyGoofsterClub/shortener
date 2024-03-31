@@ -1,10 +1,60 @@
+<%~ E.includeFile('code-comment') %>
 <head>
-    <title></title>
-    <link rel="stylesheet" href="/css/all.css">
+	<title>mishashto's link shortener</title>
+	<link rel="stylesheet" href="/css/all.css" />
+	<script src="/js/anime.min.js"></script>
+	<script src="/js/all.js"></script>
 </head>
 
 <body>
-    <div class="flex--center">
-        <div class="logo-block" />
-    </div>
+	<video class="videoembed" autoplay muted loop>
+		<source src="/video/thighs.mp4" type="video/mp4" />
+		Your browser does not support the video tag.
+	</video>
+	<div class="background-darkener"></div>
+	<div class="just-centered">
+		<a
+			href="#"
+			onclick="document.querySelector('.wrapper').style.display = 'block'; this.style.display = 'none'; LoginLandingButtonPressed(); return false;"
+			onmouseenter="document.querySelector('.background-darkener').style.opacity = 0.8; document.querySelector('.videoembed').style.filter = 'blur(21px)';"
+			onmouseleave="document.querySelector('.background-darkener').style.opacity = 0.6; document.querySelector('.videoembed').style.filter = 'blur(10px)';"
+			class="huge-landing-button"
+			>Gain Access</a
+		>
+	</div>
+	<div class="flex--center">
+		<div class="wrapper" style="display: none">
+			<img
+				src="/imgs/futaba.png"
+				class="futaba"
+				draggable="false"
+				oncontextmenu="return false;"
+				style="opacity: 0"
+			/>
+			<img
+				src="/imgs/arrow.svg"
+				class="futaba-arrow"
+				draggable="false"
+				oncontextmenu="return false;"
+				style="opacity: 0"
+			/>
+			<div
+				class="login-box"
+				style="display: block; opacity: 0; transform: scaleY(0%)"
+			>
+				<p class="character-name" style="opacity: 0">
+					Futaba Rio
+					<span class="loading-dots" style="opacity: 0"
+						><span class="dot"></span><span class="dot"></span
+						><span class="dot"></span
+					></span>
+				</p>
+				<p class="character-speaking">
+					<span class="small-text" style="opacity: 0"
+						>* thinking *</span
+					>
+				</p>
+			</div>
+		</div>
+	</div>
 </body>

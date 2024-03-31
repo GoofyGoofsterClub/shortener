@@ -1,6 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 :root
 {
-    --brand-background: #2A2B2E;
+    --brand-background: #2E272E;
+}
+
+* {
+    font-family: 'Raleway', sans-serif;
+    color: white;
+
+    z-index: 10;
 }
 
 html, body
@@ -26,4 +35,236 @@ html, body
     background-size: contain;
     width: 182.5px;
     height: 154px;
+}
+
+.wrapper
+{
+    position: relative;
+}
+
+.login-box
+{
+    position: relative;
+    width: 400px;
+    max-width: 100%;
+    background-color: #281E28;
+    padding: 8px;
+    border-radius: 12px;
+    padding-left: 24px;
+    -webkit-box-shadow: 10px 10px 57px 3px rgba(40, 30, 40, 1);
+    -moz-box-shadow: 10px 10px 57px 3px rgba(40, 30, 40, 1);
+    box-shadow: 10px 10px 57px 3px rgba(40, 30, 40, 1);
+}
+
+.character-name
+{
+    vertical-align: middle;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3rem;
+}
+
+.character-speaking
+{
+    word-wrap: break-word;
+    margin-right: 8px;
+    text-align: justify;
+}
+
+.futaba
+{
+    user-select: none;
+    -webkit-user-drag: none;
+    -moz-window-dragging: none;
+    position: absolute;
+    left: -13px;
+    top: -132px;
+    width: 128px;
+    rotate: -9deg;
+    z-index: -1 !important;
+}
+
+.futaba-arrow
+{
+    user-select: none;
+    -webkit-user-drag: none;
+    -moz-window-dragging: none;
+    position: absolute;
+    left: 72px;
+    top: -16px;
+}
+
+input {
+    background: rgba(255, 255, 255, 0);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    padding: 8px 16px;
+    color: white;
+    outline: none;
+
+    transition: 0.2s;
+}
+
+input:focus {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.input-button {
+
+    background: rgba(40, 30, 40, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    padding: 8px 32px;
+    color: white;
+    outline: none;
+    overflow: hidden;
+
+    margin: 0 2px;
+
+    transition: 0.2s;
+
+    position: relative;
+}
+
+.input-button:disabled {
+    opacity: 0.5;
+}
+
+input:disabled {
+    opacity: 0.5;
+}
+
+.input-button:hover {
+    background: rgba(40, 30, 40, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+}
+
+.small-text {
+    font-size: 11px;
+}
+
+.error-text {
+    color: rgb(240, 86, 86);
+}
+
+.bold {
+    font-weight: 600;
+}
+
+.just-centered
+{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.huge-landing-button
+{
+    font-size: 32px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: .8rem;
+    user-select: none;
+
+    transition: 0.3s;
+}
+
+
+.huge-landing-button:hover
+{
+    letter-spacing: 1.9rem;
+}
+
+.small-p {
+    padding: 1px;
+    margin: 1px;
+}
+
+a
+{
+    text-decoration: none;
+}
+
+@media screen and (max-width: 768px)
+{
+    .login-box
+    {
+        width: 100%;
+        padding: 12px;
+    }
+}
+
+.videoembed
+{
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: fill;
+    filter: blur(10px);
+    z-index: 0;
+}
+
+.background-darkener
+{
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: 1;
+    background: #281E28;
+    opacity: 0.6;
+
+    transition: 0.3s;
+}
+
+.loading-dots > .dot
+{
+    display: inline-block;
+    vertical-align: middle;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    margin: 2px;
+    opacity: 0.5;
+    background: rgb(20, 17, 20);
+    transition: 0.2s;
+    animation: fade-in 1s ease infinite;
+}
+
+.loading-dots>.dot:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.loading-dots>.dot:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.loading-dots>.dot:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0.5;
+        transform: translateY(0px);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateY(-2px);
+    }
+
+    100% {
+        opacity: 0.5;
+        transform: translateY(0px);
+    }
+
 }
