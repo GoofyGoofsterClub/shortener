@@ -11,6 +11,7 @@
     "paths": {
       "@web/*": ["./src/web/*"],
       "@utils/*": ["./src/utils/*"],
+      "@db/*": ["./src/db/*"]
     },
 
     "outDir": "./dist",  
