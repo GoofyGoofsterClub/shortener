@@ -49,7 +49,6 @@ export class Server
         {
             let route = require(`./routes/${file}`).default;
             this.output.Log(`Adding route ${route.name.cyan}...`);
-            this.output.Log(this.databaseInterface);
             let routeIndex = this.routes.push(new route(this.databaseInterface));
             this.app[this.routes[routeIndex - 1].Method.toLowerCase()](this.routes[routeIndex - 1].Path, (request:any, response:any) =>
             {
