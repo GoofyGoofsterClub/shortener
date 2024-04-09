@@ -3,13 +3,15 @@ import Eta from "eta";
 import fs from "fs";
 import { PresetOutput } from "@utils/output";
 import { HTTPInterface } from "@utils/serverinterface";
-import DefaultRoute from "./route";
+import DefaultRoute, { DefaultAPIRoute } from "@web/route";
 import DatabaseInterface from "@db/database";
+import GetRoutesResursively from "@utils/recursive";
 
 export class Server
 {
     private readonly output: PresetOutput = new PresetOutput("http");
     private routes: DefaultRoute[] = [];
+    private apiRoutes: DefaultAPIRoute[] = [];
     private app: HTTPInterface;
     private databaseInterface: DatabaseInterface | null;
 
@@ -56,5 +58,22 @@ export class Server
             });
 
         });
+
+        this.output.Log("Adding API routes...");
+
+        const apiRoutes = GetRoutesResursively("./dist/web/api");
+        for (let route of apiRoutes)
+        {
+            route = route.replace(/^(\.\/dist\/web\/api\/)/g, '').replace(/\.js$/g, '');
+            this.output.Log(`Adding API route :: ${route.cyan}...`);
+            let _route = require(`./api/${route}.js`).default;
+            let routeIndex = this.apiRoutes.push(new _route(this.databaseInterface));
+
+            this.app[this.apiRoutes[routeIndex - 1].Method.toLowerCase()](`/api/${route}`, (request: any, response: any) =>
+            {
+                this.apiRoutes[routeIndex - 1].Serve(request, response);
+            });
+        }
+        
     }
 }
