@@ -1,4 +1,3 @@
-import DatabaseInterface from "@db/database";
 import DefaultRoute from "@web/route";
 
 export default class IndexRoute extends DefaultRoute
