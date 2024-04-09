@@ -11,6 +11,8 @@ import DatabaseInterface from "@db/database";
         process.env.MONGO_PASSWORD as string);
     await database.connect();
     
+    server.setDatabaseInterface(database);
+
     server.start();
 
 })().catch(console.error);

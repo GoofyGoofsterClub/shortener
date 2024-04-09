@@ -1,8 +1,8 @@
+import DatabaseInterface from "@db/database";
 import DefaultRoute from "@web/route";
 
 export default class IndexRoute extends DefaultRoute
 {
-    public DatabaseInterface: null = null;
     public readonly Method: string = "GET";
     public readonly Path: string = "/";
 

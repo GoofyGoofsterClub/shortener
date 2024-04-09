@@ -4,16 +4,20 @@ import fs from "fs";
 import { PresetOutput } from "@utils/output";
 import { HTTPInterface } from "@utils/serverinterface";
 import DefaultRoute from "./route";
+import DatabaseInterface from "@db/database";
 
 export class Server
 {
     private readonly output: PresetOutput = new PresetOutput("http");
     private routes: DefaultRoute[] = [];
     private app: HTTPInterface;
+    private databaseInterface: DatabaseInterface | null;
 
     public constructor()
     {
         this.app = express();
+        this.app.variables = {};
+        this.databaseInterface = null;
         this.app.engine("eta", Eta.renderFile);
         this.app.set("view engine", "eta");
         this.app.set("views", "./views");
@@ -28,6 +32,16 @@ export class Server
         this.app.listen(3000, () => this.output.Log("Server started!"));
     }
 
+    public async setDatabaseInterface(db: DatabaseInterface)
+    {
+        this.databaseInterface = db;
+    }
+
+    public async setPublicVariable(name: string, value: any)
+    {
+        this.app.variables[name] = value;
+    }
+
     public async addRoutes()
     {
         this.output.Log("Adding routes...");
@@ -35,8 +49,8 @@ export class Server
         {
             let route = require(`./routes/${file}`).default;
             this.output.Log(`Adding route ${route.name.cyan}...`);
-            let routeIndex = this.routes.push(new route());
-            this.routes[routeIndex - 1].DatabaseInterface = null;
+            this.output.Log(this.databaseInterface);
+            let routeIndex = this.routes.push(new route(this.databaseInterface));
             this.app[this.routes[routeIndex - 1].Method.toLowerCase()](this.routes[routeIndex - 1].Path, (request:any, response:any) =>
             {
                 this.routes[routeIndex - 1].Serve(request, response);
