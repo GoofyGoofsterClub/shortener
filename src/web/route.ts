@@ -12,3 +12,15 @@ export default abstract class DefaultRoute
         this.databaseInterface = db;
     }
 }
+
+export abstract class DefaultAPIRoute
+{
+    public databaseInterface: DatabaseInterface;
+    public readonly abstract Method: string;
+    public abstract Serve(request: any, response: any): void;
+
+    constructor(db: DatabaseInterface)
+    {
+        this.databaseInterface = db;
+    }
+}
