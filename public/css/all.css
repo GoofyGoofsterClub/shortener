@@ -251,6 +251,11 @@ a
     animation-delay: 0.6s;
 }
 
+.inlb
+{
+    display: inline-block;
+}
+
 @keyframes fade-in {
     0% {
         opacity: 0.5;

@@ -1,7 +1,7 @@
 const DEFAULT_FUTABA_DELAY = 60;
 const FUTABA_SCENARIOS = {
     "WELCOME": {
-        "text": "<span>I&nbsp;wonder&nbsp;who&nbsp;this&nbsp;is,&nbsp;please&nbsp;log&nbsp;in.<br><br></span><input placeholder='User Key'><span>&nbsp;</span><button class='input-button'>Log in</button>"
+        "text": "<span>I&nbsp;wonder&nbsp;who&nbsp;this&nbsp;is,&nbsp;please&nbsp;log&nbsp;in.<br><br></span><input placeholder='User Key'><span>&nbsp;</span><button class='input-button'>Log in</button><br>"
     },
     "WELCOME_USER": {
         "text": "<span>Welcome&nbsp;back,&nbsp;mishashto!"
@@ -85,6 +85,8 @@ async function SpeakText(text, delay)
     SPEECH_BUBBLE_ELEMENT.innerText = '';
     let inElement = false;
     ResumeFutabaAnimation();
+
+    let appearancesOfInputElements = 0;
     for (l = 0; l < text.length; l++)
     {   
         let newAttr = text[l].cloneNode(false);
@@ -94,12 +96,22 @@ async function SpeakText(text, delay)
             continue;    
         }
         SPEECH_BUBBLE_ELEMENT.appendChild(newAttr);
-        if (DO_NOT_TYPE_IN_SPEECH_ELEMENTS.includes(newAttr.tagName))
-        {
+        if (DO_NOT_TYPE_IN_SPEECH_ELEMENTS.includes(newAttr.tagName) || Array.from(newAttr.classList ?? []).includes("speech-do-not-animate")) {
+            appearancesOfInputElements++;
+            console.log(newAttr, `   `, appearancesOfInputElements);
+            newAttr.style.opacity = 0;
+            newAttr.style.transform = "translateY(-10px)";
             console.log("STOP!");
             newAttr.innerHTML = text[l].innerHTML;
+            anime({
+                targets: newAttr,
+                opacity: 1,
+                translateY: 0,
+                duration: 300,
+                delay: 200 * appearancesOfInputElements
+            });
             continue;
-        }
+        } else appearancesOfInputElements = 0;
         for (lt = 0; lt < text[l].innerText.length; lt++)
         {
             newAttr.innerText += text[l].innerText[lt];
