@@ -1,7 +1,7 @@
 const DEFAULT_FUTABA_DELAY = 60;
 const FUTABA_SCENARIOS = {
     "WELCOME": {
-        "text": "<span>I&nbsp;wonder&nbsp;who&nbsp;this&nbsp;is,&nbsp;please&nbsp;log&nbsp;in.<br><br></span><input placeholder='User Key'><span>&nbsp;</span><button class='input-button'>Log in</button><br>"
+        "text": "<span>I&nbsp;wonder&nbsp;who&nbsp;this&nbsp;is,&nbsp;please&nbsp;log&nbsp;in.<br><br></span><input type='password' placeholder='User Key'><span>&nbsp;</span><button class='input-button'>Log in</button><br>"
     },
     "WELCOME_USER": {
         "text": "<span>Welcome&nbsp;back,&nbsp;mishashto!"
