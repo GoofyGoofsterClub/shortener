@@ -1,7 +1,76 @@
 const DEFAULT_FUTABA_DELAY = 60;
+var FUTABA_PARAMS = {};
+
+const FutabaParam = (param) => { return FUTABA_PARAMS[param] ?? 'Unspecified' };
+
 const FUTABA_SCENARIOS = {
     "WELCOME": {
-        "text": "<span>I&nbsp;wonder&nbsp;who&nbsp;this&nbsp;is,&nbsp;please&nbsp;log&nbsp;in.<br><br></span><input type='password' placeholder='User Key'><span>&nbsp;</span><button class='input-button'>Log in</button><br>"
+        "text": "<span>I&nbsp;wonder&nbsp;who&nbsp;this&nbsp;is,&nbsp;please&nbsp;log&nbsp;in.<br><br></span><input type='password' placeholder='User Key'><span>&nbsp;</span><button class='input-button'>Log in</button><br>",
+        "exec": {
+            "after": async (dom) => {
+                dom.querySelector('button').onclick = async (self) => {
+                    self.target.disabled = true;
+                    dom.querySelector('input').disabled = true;
+                    let accessKey = dom.querySelector('input').value;
+
+                    let apiResponse = await fetch(`/api/session/authenticate?key=${accessKey}`);
+                    let apiJsonResponse = await apiResponse.json();
+
+                    if (!('success' in apiJsonResponse.data))
+                    {
+                        anime({
+                            targets: dom.querySelector('input'),
+                            translateX: [
+                            { value: -10, duration: 50 },
+                            { value: 10, duration: 50 },
+                            { value: -10, duration: 50 },
+                            { value: 10, duration: 50 },
+                            { value: -10, duration: 50 },
+                            { value: 10, duration: 50 },
+                            { value: -10, duration: 50 },
+                            { value: 10, duration: 50 },
+                            { value: 0, duration: 50 }
+                            ],
+                                background: [
+                                    { value: 'rgba(251, 6, 6, 0.04)', duration: 10 },
+                                    { value: 'rgba(251,6,6,0)', duration: 10, delay: 440 }
+                                ]
+                        });
+                        self.target.disabled = false;
+                        dom.querySelector('input').disabled = false;
+                        return;
+                    }
+
+                    let success = apiJsonResponse.data.success;
+                    
+                    if (!success)
+                    {
+                        anime({
+                            targets: dom.querySelector('input'),
+                            translateX: [
+                            { value: -10, duration: 50 },
+                            { value: 10, duration: 50 },
+                            { value: -10, duration: 50 },
+                            { value: 10, duration: 50 },
+                            { value: -10, duration: 50 },
+                            { value: 10, duration: 50 },
+                            { value: -10, duration: 50 },
+                            { value: 10, duration: 50 },
+                            { value: 0, duration: 50 }
+                            ],
+                                background: [
+                                    { value: 'rgba(251, 6, 6, 0.04)', duration: 10 },
+                                    { value: 'rgba(251,6,6,0)', duration: 10, delay: 440 }
+                                ]
+                        });
+                        self.target.disabled = false;
+                        dom.querySelector('input').disabled = false;
+                        return;
+                    }
+                    alert("NICE");
+                };
+            }
+        }
     },
     "WELCOME_USER": {
         "text": "<span>Welcome&nbsp;back,&nbsp;mishashto!"
@@ -64,7 +133,7 @@ async function LoginLandingButtonPressed()
                 duration: 800,
                 complete: async function ()
                 {
-                    await SpeakText(FUTABA_SCENARIOS.WELCOME.text, DEFAULT_FUTABA_DELAY);
+                    await SetScenario('WELCOME');
                 }
             });
         }
@@ -73,7 +142,11 @@ async function LoginLandingButtonPressed()
 
 async function SetScenario(scenarioName)
 {
+    if (FUTABA_SCENARIOS[scenarioName].exec && 'before' in FUTABA_SCENARIOS[scenarioName].exec)
+        FUTABA_SCENARIOS[scenarioName].exec['after'](SPEECH_BUBBLE_ELEMENT);    
     await SpeakText(FUTABA_SCENARIOS[scenarioName].text, DEFAULT_FUTABA_DELAY);
+    if (FUTABA_SCENARIOS[scenarioName].exec && 'after' in FUTABA_SCENARIOS[scenarioName].exec)
+        FUTABA_SCENARIOS[scenarioName].exec['after'](SPEECH_BUBBLE_ELEMENT);    
 }
 
 async function SpeakText(text, delay)
