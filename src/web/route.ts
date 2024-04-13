@@ -1,4 +1,5 @@
 import DatabaseInterface from "@db/database";
+import { APIResponse } from "./apiresponse";
 
 export default abstract class DefaultRoute
 {
@@ -22,5 +23,19 @@ export abstract class DefaultAPIRoute
     constructor(db: DatabaseInterface)
     {
         this.databaseInterface = db;
+    }
+
+    respond(_response: any, response: APIResponse)
+    {
+        return _response.send(response);
+    }
+
+    async authenticate(request: any): Promise<boolean>
+    {
+        if (!request.query.key)
+            return false;
+        
+        let doesUserExist = await this.databaseInterface.checkDocumentExists("users", { "key": `${request.query.key}` });
+        return doesUserExist ?? false;
     }
 }
