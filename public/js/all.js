@@ -67,13 +67,14 @@ const FUTABA_SCENARIOS = {
                         dom.querySelector('input').disabled = false;
                         return;
                     }
-                    alert("NICE");
+                    FUTABA_PARAMS.username = 'user_test';
+                    SetScenario("WELCOME_USER");
                 };
             }
         }
     },
     "WELCOME_USER": {
-        "text": "<span>Welcome&nbsp;back,&nbsp;mishashto!"
+        "text": () => { return `<span>Welcome&nbsp;back,&nbsp;${FutabaParam("username")}!</span>` }
     },
     "WRONG_DATA": {},
     "ERROR": {},
@@ -143,10 +144,15 @@ async function LoginLandingButtonPressed()
 async function SetScenario(scenarioName)
 {
     if (FUTABA_SCENARIOS[scenarioName].exec && 'before' in FUTABA_SCENARIOS[scenarioName].exec)
-        FUTABA_SCENARIOS[scenarioName].exec['after'](SPEECH_BUBBLE_ELEMENT);    
-    await SpeakText(FUTABA_SCENARIOS[scenarioName].text, DEFAULT_FUTABA_DELAY);
+        FUTABA_SCENARIOS[scenarioName].exec['after'](SPEECH_BUBBLE_ELEMENT);
+
+    if (FUTABA_SCENARIOS[scenarioName].text instanceof Function)
+        await SpeakText(FUTABA_SCENARIOS[scenarioName].text(), DEFAULT_FUTABA_DELAY);
+    else
+        await SpeakText(FUTABA_SCENARIOS[scenarioName].text, DEFAULT_FUTABA_DELAY);
+
     if (FUTABA_SCENARIOS[scenarioName].exec && 'after' in FUTABA_SCENARIOS[scenarioName].exec)
-        FUTABA_SCENARIOS[scenarioName].exec['after'](SPEECH_BUBBLE_ELEMENT);    
+        FUTABA_SCENARIOS[scenarioName].exec['after'](SPEECH_BUBBLE_ELEMENT);
 }
 
 async function SpeakText(text, delay)
