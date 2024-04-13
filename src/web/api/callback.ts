@@ -1,4 +1,5 @@
 import { DefaultAPIRoute } from "@web/route";
+import { APIResponse } from "@web/apiresponse";
 
 export default class extends DefaultAPIRoute
 {
@@ -6,8 +7,11 @@ export default class extends DefaultAPIRoute
 
     public Serve(request: any, response: any): void
     {
-        response.send({
-            "callback": true
-        });
+        this.respond(response, {
+            "status": response.statusCode,
+            "message": "",
+            "data": []
+
+        } as APIResponse);
     }
 }
