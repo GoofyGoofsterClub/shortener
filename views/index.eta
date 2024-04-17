@@ -16,7 +16,7 @@
 		muted
 		autoplay
 		loop
-		onloadedmetadata="anime({targets: '.loading-video', opacity: 0, duration: 600});"
+		data-lazy-function="hideLoader"
 	>
 		<source src="/video/thighs.mp4" type="video/mp4" />
 		Your browser does not support the video tag.

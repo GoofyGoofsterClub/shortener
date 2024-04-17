@@ -2,7 +2,18 @@ const DEFAULT_FUTABA_DELAY = 60;
 var FUTABA_PARAMS = {};
 
 const FutabaParam = (param) => { return FUTABA_PARAMS[param] ?? 'Unspecified' };
-var lazyLoadInstance = new LazyLoad({});
+window.lazyFunctions = {
+    hideLoader: function (element)
+    {
+        anime({targets: '.loading-video', opacity: 0, duration: 600});
+    }
+};
+
+var lazyLoadInstance = new LazyLoad({
+    unobserve_entered: true,
+    callback_enter: executeLazyFunction
+});
+
 
 const FUTABA_SCENARIOS = {
     "WELCOME": {
@@ -258,4 +269,11 @@ function ResumeFutabaAnimation()
 
 function sleep (time) {
   return new Promise((resolve) => setTimeout(resolve, time));
+}
+
+function executeLazyFunction(element) {
+  var lazyFunctionName = element.getAttribute("data-lazy-function");
+  var lazyFunction = window.lazyFunctions[lazyFunctionName];
+  if (!lazyFunction) return;
+  lazyFunction(element);
 }
