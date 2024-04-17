@@ -1,5 +1,4 @@
 import { DefaultAPIRoute } from "@web/route";
-import { APIResponse } from "@web/apiresponse";
 
 export default class extends DefaultAPIRoute
 {
