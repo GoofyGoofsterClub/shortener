@@ -2,6 +2,7 @@ const DEFAULT_FUTABA_DELAY = 60;
 var FUTABA_PARAMS = {};
 
 const FutabaParam = (param) => { return FUTABA_PARAMS[param] ?? 'Unspecified' };
+var lazyLoadInstance = new LazyLoad({});
 
 const FUTABA_SCENARIOS = {
     "WELCOME": {
@@ -131,6 +132,7 @@ var futabaTalking;
 
 window.onload = async function ()
 {
+    lazyLoadInstance.update();
     SPEECH_BUBBLE_ELEMENT = document.querySelector('.character-speaking');
     futabaTalking = anime({
     targets: '.futaba',

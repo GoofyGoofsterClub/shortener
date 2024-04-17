@@ -257,6 +257,30 @@ a
     display: inline-block;
 }
 
+.loading-video
+{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: rgb(20, 17, 20);
+    z-index: 999;
+    pointer-events: none;
+}
+
+.loading-video > span
+{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 64px;
+    font-weight: 800;
+    filter: blur(3px);
+    animation: alternate float 1s infinite;
+}
+
 @keyframes fade-in {
     0% {
         opacity: 0.5;
@@ -273,4 +297,21 @@ a
         transform: translateY(0px);
     }
 
+}
+
+@keyframes float {
+    0% {
+        transform: translate(-50%, -50%);
+        filter: blur(3px);
+    }
+
+    50% {
+        transform: translate(-50%, -69%);
+        filter: blur(0px);
+    }
+
+    100% {
+        transform: translate(-50%, -50%);
+        filter: blur(3px);
+    }
 }

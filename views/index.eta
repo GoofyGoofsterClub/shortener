@@ -2,12 +2,22 @@
 <head>
 	<title>mishashto's link shortener</title>
 	<link rel="stylesheet" href="/css/all.css" />
+	<script src="/js/lazyload.min.js"></script>
 	<script src="/js/anime.min.js"></script>
 	<script src="/js/all.js"></script>
 </head>
 
 <body>
-	<video class="videoembed" autoplay muted loop>
+	<div class="loading-video">
+		<span>(″･ิ_･ิ)っ</span>
+	</div>
+	<video
+		class="videoembed lazy"
+		muted
+		autoplay
+		loop
+		onloadedmetadata="anime({targets: '.loading-video', opacity: 0, duration: 600});"
+	>
 		<source src="/video/thighs.mp4" type="video/mp4" />
 		Your browser does not support the video tag.
 	</video>
