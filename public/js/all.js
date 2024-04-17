@@ -67,7 +67,36 @@ const FUTABA_SCENARIOS = {
                         dom.querySelector('input').disabled = false;
                         return;
                     }
-                    FUTABA_PARAMS.username = 'user_test';
+                    
+                    let userInfo = await fetch(`/api/session/info?key=${accessKey}`);
+                    let userInfoJson = await userInfo.json();
+
+                    if (!userInfoJson.data.success)
+                    {
+                        anime({
+                            targets: dom.querySelector('input'),
+                            translateX: [
+                            { value: -10, duration: 50 },
+                            { value: 10, duration: 50 },
+                            { value: -10, duration: 50 },
+                            { value: 10, duration: 50 },
+                            { value: -10, duration: 50 },
+                            { value: 10, duration: 50 },
+                            { value: -10, duration: 50 },
+                            { value: 10, duration: 50 },
+                            { value: 0, duration: 50 }
+                            ],
+                                background: [
+                                    { value: 'rgba(251, 6, 6, 0.04)', duration: 10 },
+                                    { value: 'rgba(251,6,6,0)', duration: 10, delay: 440 }
+                                ]
+                        });
+                        self.target.disabled = false;
+                        dom.querySelector('input').disabled = false;
+                        return;
+                    }
+
+                    FUTABA_PARAMS.username = userInfoJson.data.user.displayName;
                     SetScenario("WELCOME_USER");
                 };
             }
