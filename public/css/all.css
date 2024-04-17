@@ -266,7 +266,6 @@ a
     top: 0;
     background: rgb(20, 17, 20);
     z-index: 999;
-    pointer-events: none;
 }
 
 .loading-video > span
@@ -278,6 +277,7 @@ a
     font-size: 64px;
     font-weight: 800;
     filter: blur(3px);
+    user-select: none;
     animation: alternate float 1s infinite;
 }
 
