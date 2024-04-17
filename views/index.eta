@@ -1,4 +1,5 @@
 <%~ E.includeFile('code-comment') %>
+<!DOCTYPE html>
 <head>
 	<title>mishashto's link shortener</title>
 	<link rel="stylesheet" href="/css/all.css" />
