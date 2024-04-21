@@ -257,6 +257,22 @@ a
     display: inline-block;
 }
 
+.align-right
+{
+    
+    float: right;
+    vertical-align: middle;
+}
+
+.vertical-align-middle
+{
+    vertical-align: middle;
+}
+
+input[type="checkbox"] {
+    accent-color: rgba(40, 30, 40, 1);
+}
+
 .loading-video
 {
     width: 100%;

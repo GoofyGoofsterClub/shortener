@@ -16,6 +16,8 @@ window.lazyFunctions = {
     }
 };
 
+var lastUrlShortened = '';
+
 var lazyLoadInstance = new LazyLoad({
     unobserve_entered: true,
     callback_enter: executeLazyFunction
@@ -123,7 +125,48 @@ const FUTABA_SCENARIOS = {
         }
     },
     "WELCOME_USER": {
-        "text": () => { return `<span>Welcome&nbsp;back,&nbsp;${FutabaParam("username")}!</span>` }
+        "text": () => {
+            return `<span class='vertical-align-middle'>Welcome&nbsp;back,&nbsp;${FutabaParam("username")}!</span>&nbsp;
+<button class='speech-do-not-animate input-button align-right'>log out</button>
+<br><br><br>
+<input placeholder='URL' id='url-shorten'>&nbsp;<button class='input-button'>Shorten</button><br><br>
+<input type="checkbox" id="shorten-destruct" name="destruct" />
+<label for="destruct">Destruct link after use</label>` },
+        "exec": {
+            "after": async (dom) => {
+                let urlToShorten = dom.querySelector('#url-shorten');
+                let shortenButton = dom.querySelector('.input-button:nth-of-type(2)');
+                let destroyableSelector = dom.querySelector('#shorten-destruct');
+
+                // log out
+                dom.querySelector('.input-button:nth-of-type(1)').addEventListener("click", async () => {
+                    eraseCookie("auth.user.key");
+                    window.location.reload();
+                    return;
+                });
+
+                // shorten
+                shortenButton.addEventListener("click", async () => {
+                    urlToShorten.disabled = true;
+                    shortenButton.disabled = true;
+                    if (!isValidHttpUrl(urlToShorten.value) || lastUrlShortened == urlToShorten.value)
+                    {
+                        urlToShorten.disabled = false;
+                        shortenButton.disabled = false;
+                        return;    
+                    }
+                    let shortenReq = await fetch(`/api/link/shorten?key=${getCookie('auth.user.key')}&link=${urlToShorten.value}&onetime=${destroyableSelector.checked}&samedomain=true`);
+                    let shortenReqJSON = await shortenReq.json();
+                    urlToShorten.disabled = false;
+                    shortenButton.disabled = false;
+                    lastUrlShortened = `${shortenReqJSON.data.link}`;
+                    urlToShorten.value = `${shortenReqJSON.data.link}`;
+                    urlToShorten.focus();
+                    urlToShorten.select();
+
+                });
+            }
+        }
     },
     "WRONG_DATA": {},
     "ERROR": {},
@@ -170,6 +213,38 @@ window.onload = async function ()
 
 async function LoginLandingButtonPressed()
 {
+    if (getCookie("auth.user.key"))
+    {
+        let userAuth = await fetch('/api/session/info?key=' + getCookie('auth.user.key'));
+        let userAuthJson = await userAuth.json();
+        if (userAuthJson.status != 200)
+        {
+            eraseCookie('auth.user.key');
+            window.location.reload();
+            return;
+        }
+        FUTABA_PARAMS['username'] = userAuthJson.data.user.displayName;
+        await anime({
+            targets: ".login-box",
+            opacity: 1,
+            scaleY: "100%",
+            duration: 800,
+            complete: async function ()
+            {
+                await anime({
+                    targets: ".futaba-arrow,.futaba,.character-name,.character-speaking",
+                    opacity: 1,
+                    scaleY: "100%",
+                    duration: 800,
+                    complete: async function ()
+                    {
+                        await SetScenario('WELCOME_USER');
+                    }
+                });
+            }
+        });
+        return;
+    }
     await anime({
         targets: ".login-box",
         opacity: 1,
@@ -243,7 +318,7 @@ async function SpeakText(text, delay)
         } else appearancesOfInputElements = 0;
         for (lt = 0; lt < text[l].innerText.length; lt++)
         {
-            newAttr.innerText += text[l].innerText[lt];
+            newAttr.innerHTML += text[l].innerText[lt] == ' ' ? '&nbsp;' : text[l].innerText[lt] ;
             await sleep(delay);
         }
     }
@@ -307,4 +382,16 @@ function getCookie(name) {
 }
 function eraseCookie(name) {   
     document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+function isValidHttpUrl(string) {
+  let url;
+  
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;  
+  }
+
+  return url.protocol === "http:" || url.protocol === "https:";
 }
