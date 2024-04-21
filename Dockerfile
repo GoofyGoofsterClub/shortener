@@ -10,6 +10,6 @@ COPY . .
 
 EXPOSE 3442
 
-RUN npx babel src -d lib
+RUN npx tsc && npx tsc-alias
 
-CMD [ "node", "./lib/run.js" ]
+CMD [ "node", "./dist/index.js" ]
