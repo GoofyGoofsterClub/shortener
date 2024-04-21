@@ -30,8 +30,7 @@ export class Server
     {
         this.output.Log("Starting server...");
         await this.addRoutes();
-        // TO-OD: Replace port with ENV
-        this.app.listen(3000, () => this.output.Log("Server started!"));
+        this.app.listen(process.env.HTTP_PORT as string, () => this.output.Log("Server started!"));
     }
 
     public async setDatabaseInterface(db: DatabaseInterface)
