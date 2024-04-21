@@ -11,16 +11,11 @@
 	<div class="loading-video">
 		<span>(″･ิ_･ิ)っ</span>
 	</div>
-	<video
+	<img
 		class="videoembed lazy"
-		muted
-		autoplay
-		loop
+		src="/imgs/thighs.webp"
 		data-lazy-function="hideLoader"
-	>
-		<source src="/video/thighs.mp4" type="video/mp4" />
-		Your browser does not support the video tag.
-	</video>
+	/>
 	<div class="background-darkener"></div>
 	<div class="just-centered">
 		<a
