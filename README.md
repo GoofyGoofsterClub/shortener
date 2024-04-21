@@ -33,3 +33,14 @@ WIP
 ## Build
 
 WIP
+
+## API
+
+To shorten a link using API, you can make request to `/api/link/shorten` while providing these GET parameters:
+
+```
+?key= # (required) Your authentication key
+&link= # (required) Link to shorten
+&onetime= # true/false: If the link should stop working after use
+&samedomain= # true/false: By default true, can change only through API, set false, if you want for the link to work across all domains linked to instance.
+```
