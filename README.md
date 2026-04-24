@@ -1,5 +1,13 @@
 # shortener
 
+> [!WARNING]  
+> **⚠️ Deprecation Notice**  
+> This service will begin deprecation on April 25, 2026.
+> 
+> Originally created as a lightweight URL shortener for [imagination server](https://github.com/GoofyGoofsterClub/imagination-server) users, it has seen limited adoption over time. Combined with an increasingly outdated tech stack, a growing list of vulnerabilities, and accumulated technical debt, maintaining the service is no longer sustainable.
+> 
+> As a result, [thighs.moe](https://thighs.moe/) will be fully discontinued on October 25, 2026. During this grace period, the service will remain operational so users can access and export their data if needed.
+
 A small, funky looking self-hosted URL shortener with multi-domain support.
 
 ## Notes
